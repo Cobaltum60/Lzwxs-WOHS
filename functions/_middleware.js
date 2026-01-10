@@ -1,38 +1,51 @@
 export async function onRequest(context) {
-  const { request, env } = context;
-  const authHeader = request.headers.get('Authorization');
-
-  // 从环境变量获取凭据，未配置则直接拒绝
+  const { request, env, next } = context;
   const VALID_USER = env.AUTH_USER;
   const VALID_PASS = env.AUTH_PASS;
+
+  // 安全校验：未配置账号密码直接报错
   if (!VALID_USER || !VALID_PASS) {
-    return new Response('未配置认证凭据', { status: 500 });
-  }
-
-  // 无认证头则要求登录
-  if (!authHeader) {
-    return new Response('请输入账号密码', {
-      status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="Protected Area"' }
+    return new Response('认证配置错误，请检查Cloudflare环境变量', {
+      status: 500,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     });
   }
 
-  // 解析并验证凭据
-  const [scheme, encoded] = authHeader.split(' ');
-  if (scheme !== 'Basic' || !encoded) {
-    return new Response('无效认证格式', { status: 400 });
+  // 解析当前访问的URL
+  const url = new URL(request.url);
+  
+  // 放行登录页和验证接口（避免循环重定向）
+  if (url.pathname === '/login.html' || url.pathname === '/api/verify-auth') {
+    return next();
   }
 
-  const decoded = atob(encoded);
-  const [user, pass] = decoded.split(':');
-  if (user !== VALID_USER || pass !== VALID_PASS) {
-    return new Response('账号或密码错误', {
-      status: 401,
-      headers: { 'WWW-Authenticate': 'Basic realm="Protected Area"' }
-    });
+  // 读取并验证Cookie中的认证信息
+  const cookieHeader = request.headers.get('Cookie') || '';
+  let isAuthorized = false;
+
+  // 查找auth_token Cookie
+  const authCookie = cookieHeader.split('; ').find(row => row.startsWith('auth_token='));
+  if (authCookie) {
+    try {
+      const encodedToken = authCookie.split('=')[1];
+      const decodedToken = atob(encodedToken);
+      const [user, pass] = decodedToken.split(':');
+      // 验证账号密码
+      if (user === VALID_USER && pass === VALID_PASS) {
+        isAuthorized = true;
+      }
+    } catch (e) {
+      // 解析失败则认证无效
+      isAuthorized = false;
+    }
   }
 
-  // 验证通过，继续请求
-  return context.next();
+  // 认证通过：放行访问
+  if (isAuthorized) {
+    return next();
+  }
 
+  // 认证失败：重定向到登录页（携带目标URL）
+  const redirectTo = `${url.origin}/login.html?redirect=${encodeURIComponent(url.pathname + url.search)}`;
+  return Response.redirect(redirectTo, 302);
 }
