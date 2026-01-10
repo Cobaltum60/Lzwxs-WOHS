@@ -1,0 +1,80 @@
+/* css/theme.css - 全局亮暗模式样式（所有页面共用） */
+/* 1. 亮暗模式核心变量 */
+:root {
+    --bg-color: #f9f7f5;
+    --text-color: #333;
+    --primary-color: #4a3c2e;
+    --secondary-color: #c8a985;
+    --tertiary-color: #d4c3b3;
+    --card-bg: #fff;
+    --footer-bg: #f5f2ef;
+    --link-hover: #a68a6d;
+    --shadow-color: rgba(0,0,0,0.08);
+}
+
+.dark-mode {
+    --bg-color: #1a1815;
+    --text-color: #e8e3db;
+    --primary-color: #d8c3a5;
+    --secondary-color: #8d785c;
+    --tertiary-color: #5c4f42;
+    --card-bg: #2a2722;
+    --footer-bg: #24211d;
+    --link-hover: #b89c78;
+    --shadow-color: rgba(0,0,0,0.2);
+}
+
+/* 2. 全局主题过渡（保证切换流畅） */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 3. 主题切换按钮样式（淡入淡出，无旋转） */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    z-index: 9998;
+    transition: background-color 0.4s ease, opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0.9;
+}
+
+.theme-toggle:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    opacity: 1;
+}
+
+.theme-toggle i {
+    transition: opacity 0.5s ease, color 0.3s ease;
+    opacity: 0.9;
+}
+
+.theme-toggle:hover i {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}

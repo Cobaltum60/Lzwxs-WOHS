@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="imgs/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
     <title>介绍-麟趾文学社</title>
     <style>
         @font-face {
             font-family: 'SongFont'; 
-            src: url('fonts/font.otf') format('opentype'); 
+            src: url('fonts/font.ttf') format('truetype'); 
             font-weight: normal;
             font-style: normal;
         }
@@ -20,10 +22,11 @@
         }
         
         body {
-            background-color: #f7f5f0;
-            color: #2c3e50;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.8;
             padding-bottom: 60px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         .container {
@@ -35,18 +38,18 @@
         .section-title {
             text-align: center;
             margin: 50px 0 30px;
-            color: #2c3e50;
+            color: var(--text-color);
             font-size: 32px;
-            border-bottom: 2px solid #ddc871;
+            border-bottom: 2px solid var(--secondary-color); 
             padding-bottom: 15px;
             font-weight: normal;
         }
         
         .foreword-section {
-            background: white;
+            background: var(--card-bg); 
             border-radius: 10px;
             padding: 40px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 8px var(--shadow-color); 
             margin: 30px 0;
         }
         
@@ -57,13 +60,13 @@
         
         .foreword-title {
             font-size: 26px;
-            color: #ddc871;
+            color: var(--secondary-color); 
             margin-bottom: 10px;
             font-weight: normal;
         }
         
         .foreword-author {
-            color: #7f8c8d;
+            color: var(--text-color); 
             font-style: italic;
             margin-bottom: 20px;
             display: block;
@@ -75,14 +78,13 @@
             margin-bottom: 20px;
             line-height: 2;
         }
-        
-        /* 展开/合并按钮样式 */
+
         .toggle-btn {
             display: block;
             margin: 0 auto;
             padding: 10px 20px;
-            background-color: #ddc871;
-            color: #2c3e50;
+            background-color: var(--secondary-color); 
+            color: var(--text-color); 
             border: none;
             border-radius: 30px;
             cursor: pointer;
@@ -92,19 +94,16 @@
         }
         
         .toggle-btn:hover {
-            background-color: #c9b463;
+            background-color: var(--primary-color); 
             transform: translateY(-2px);
         }
-        
-        /* 内容容器样式 - 减小折叠高度 */
         .foreword-content-wrapper {
-            max-height: 280px; /* 折叠后只显示约1段多一点文字 */
+            max-height: 280px;
             overflow: hidden;
             transition: max-height 0.6s ease;
             position: relative;
         }
         
-        /* 添加渐变遮罩，提示下方有更多内容 */
         .foreword-content-wrapper::after {
             content: '';
             position: absolute;
@@ -112,7 +111,7 @@
             left: 0;
             width: 100%;
             height: 60px;
-            background: linear-gradient(to bottom, transparent, white);
+            background: linear-gradient(to bottom, transparent, var(--card-bg));
             pointer-events: none;
             opacity: 1;
             transition: opacity 0.3s ease;
@@ -123,33 +122,31 @@
         }
         
         .foreword-content-wrapper.expanded {
-            max-height: 3000px; /* 展开后的最大高度 */
+            max-height: 3000px; 
         }
         
-        /* 分割线样式 */
         .divider {
             margin: 50px 0;
             height: 1px;
-            background: linear-gradient(to right, transparent, #ddc871, transparent);
+            background: linear-gradient(to right, transparent, var(--secondary-color), transparent); 
             border: none;
         }
         
-        /* 联系信息样式 */
         .contact-section {
-            background: white;
+            background: var(--card-bg); 
             border-radius: 10px;
             padding: 40px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 8px var(--shadow-color); 
             margin-bottom: 30px;
         }
         
         .contact-title {
             font-size: 24px;
-            color: #2c3e50;
+            color: var(--text-color); 
             margin-bottom: 30px;
             text-align: center;
             font-weight: normal;
-            border-bottom: 1px solid #f0e9d7;
+            border-bottom: 1px solid var(--tertiary-color); 
             padding-bottom: 15px;
         }
         
@@ -165,13 +162,13 @@
             min-width: 250px;
             text-align: center;
             padding: 20px;
-            background-color: #faf8f3;
+            background-color: var(--footer-bg); 
             border-radius: 8px;
         }
         
         .contact-item h4 {
             font-size: 18px;
-            color: #ddc871;
+            color: var(--secondary-color); 
             margin-bottom: 15px;
             font-weight: normal;
         }
@@ -182,12 +179,11 @@
         }
         
         .contact-item .highlight {
-            color: #ddc871;
+            color: var(--secondary-color); 
             font-weight: 500;
         }
         
         @media (max-width: 768px) {
-            
             .section-title {
                 font-size: 28px;
                 margin: 30px 0 20px;
@@ -202,7 +198,7 @@
             }
             
             .foreword-content-wrapper {
-                max-height: 220px; /* 移动端折叠后更短 */
+                max-height: 220px; 
             }
             
             .contact-info {
@@ -217,6 +213,9 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
     
     <div class="container">
         <section>
@@ -224,10 +223,9 @@
             <div class="foreword-section">
                 <div class="foreword-header">
                     <h3 class="foreword-title">麟趾文学社</h3>
-                    <span class="foreword-author">刘文元</span>
+                    <span class="foreword-author">刘老师</span>
                 </div>
                 
-                <!-- 内容容器 - 用于控制展开/合并 -->
                 <div class="foreword-content-wrapper" id="forewordContent">
                     <div class="foreword-content">
                        青春不止有纸笔间的演算与赛场中的奔跑，更应有文字里的山河与笔墨间的赤诚。或许你曾在晨光熹微时，为一句诗心潮澎湃；或许你曾在暮色四合时，因一段故事辗转难眠——这些藏在心底的悸动、对世界的追问、对生活的感悟，都值得被文字妥帖安放。麟趾文学社，便是为这份热爱搭建的栖息地：在这里，我们可以以笔为舟，漫游于古典诗词的烟雨江南；也能以文为镜，映照出现实世界的鲜活百态；可以围坐探讨一篇文章的肌理，也能独自书写一段无人知晓的心事。未来的日子里，愿麟趾文学社能成为澳新校园里的一方精神角落：让喜欢文字的同学在这里遇见同频的伙伴，让迷茫探索的同学在这里找到表达的出口，让每一份对文学的热爱都能生根、发芽，最终长成参天大树。也愿这本文集，能成为我们青春的见证——多年后再翻开，仍能想起此刻在澳新校园里，我们曾以文字为翼，共同追逐过那束名为“热爱”的光。从此，麟趾鸣春，文心逐光。愿我们以笔为犁，耕耘岁月；以文为炬，照亮青春。
@@ -239,15 +237,11 @@
                        观麟趾于《周南》，识孔昭之大义。《诗》云：“麟之趾，振振公子”。 麟为仁兽，趾喻才济。麟趾见世，昌盛随之；麟趾所化，彧彧多士。典谟训诰，实蕴其仁，以文弘义；托名“麟趾”，志在毓英，鱼贯雁比。文可经国，岂为雕虫之技？上以载道，下宣余情，中接厚谊。文之为用，岂不大矣！君子以文会友，以友辅仁，正守文脉之柢。然文心载道，以资藻绮。今结社传薪，上赓风雅，下彰才艺。效麟雍容，摒今之伪饰；法趾温润，斥文之锋戾。以仁为胄，以知为楫。勤耕不辍，琢玉成器。经之营之，不日成之。且麟之为物，应时而现，贵之以稀。大音希闻，大雅难企。今众声喧阗，珠目混迹。惟若麟趾振振，抱雕龙之志，执灵蛇之珠，奏黄钟大吕，才成锦帙。河马垂图，以待时圣；洛水现书，必资俊逸。微星共烛，翰海熠熠。永葆素心，常怀寸尺。怀瑾握玉，气盛言宜。如是，麟趾之迹，终成垂天之翼。是为发刊，以勖同道。
                     </div>
                 </div>
-                
-                <!-- 展开/合并按钮 -->
+
                 <button class="toggle-btn" id="toggleBtn">展开全文</button>
             </div>
-            
-            <!-- 分割线 -->
+
             <hr class="divider">
-            
-            <!-- 投稿和联系信息 -->
             <section class="contact-section">
                 <h3 class="contact-title">投稿须知 | 联系我们</h3>
                 <div class="contact-info">
@@ -275,15 +269,14 @@
     </div>
 
     <script>
-        // 展开/合并功能实现
+        
         const toggleBtn = document.getElementById('toggleBtn');
         const forewordContent = document.getElementById('forewordContent');
         
         toggleBtn.addEventListener('click', function() {
-            // 切换展开/合并状态
+           
             forewordContent.classList.toggle('expanded');
-            
-            // 切换按钮文字
+        
             if (forewordContent.classList.contains('expanded')) {
                 toggleBtn.textContent = '收起全文';
             } else {
@@ -291,5 +284,6 @@
             }
         });
     </script>
+    <script src="js/theme.js"></script>
 </body>
 </html>
