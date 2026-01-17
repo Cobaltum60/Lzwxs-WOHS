@@ -502,3 +502,28 @@ a {
         font-size: 0.9rem;
     }
 }
+.official-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1rem;
+            text-decoration: none;
+            border-bottom: 1px solid;
+            padding-bottom: 2px;
+            margin-top: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .official-link:hover {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+        }
+        .dark-theme .official-link:hover {
+            color: #40a9ff;
+            border-bottom-color: #40a9ff;
+        }
+        .official-link .link-icon {
+            font-size: 1rem;
+            color: inherit;
+            flex-shrink: 0;
+        }
